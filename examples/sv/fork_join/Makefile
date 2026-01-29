@@ -1,3 +1,11 @@
+# --------------------------------------------------
+# Copyright
+# --------------------------------------------------
+#
+# Tech Aarvam
+# Copyright (c) 2026 Tech Aarvam.
+# Author: Ram (Ramasubramanian B)
+
 VERILATOR ?= verilator
 TOP ?= top
 SRC ?= *.sv
