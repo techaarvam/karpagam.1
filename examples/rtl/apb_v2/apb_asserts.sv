@@ -1,3 +1,10 @@
+// --------------------------------------------------
+// Copyright
+// --------------------------------------------------
+//
+// Tech Aarvam
+// Copyright (c) 2026 Tech Aarvam.
+// Author: Ram (Ramasubramanian B)
 
 module apb_asserts(
       nrst, clk, //clocks and resets

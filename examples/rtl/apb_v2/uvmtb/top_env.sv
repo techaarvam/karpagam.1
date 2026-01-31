@@ -1,3 +1,11 @@
+// --------------------------------------------------
+// Copyright
+// --------------------------------------------------
+//
+// Tech Aarvam
+// Copyright (c) 2026 Tech Aarvam.
+// Author: Ram (Ramasubramanian B)
+
 package apb_tb_pkg;
 
 import uvm_pkg::*;

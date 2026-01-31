@@ -1,6 +1,14 @@
-interface master_intf(
-    input logic clk,
-);
+// --------------------------------------------------
+// Copyright
+// --------------------------------------------------
+//
+// Tech Aarvam
+// Copyright (c) 2026 Tech Aarvam.
+// Author: Ram (Ramasubramanian B)
+
+interface master_intf;
+    
+    logic clk;
 
     logic nrst;
     logic valid;

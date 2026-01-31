@@ -1,15 +1,21 @@
+// --------------------------------------------------
+// Copyright
+// --------------------------------------------------
+//
+// Tech Aarvam
+// Copyright (c) 2026 Tech Aarvam.
+// Author: Ram (Ramasubramanian B)
+
 `timescale 1ns/1ps
 import uvm_pkg::*;
 import apb_tb_pkg::*;
 
 module tb;
-    logic nrst, clk, valid, ready;
-    logic [7:0] source, destination;
-    logic [3:0] length;
     logic psel0, pready0, penable0, pwrite0, perr0;
     logic [7:0] pwdata0, prdata0, paddr0; 
     logic psel1, pready1, penable1, pwrite1, perr1;
     logic [7:0] pwdata1, prdata1, paddr1; 
+    master_intf intf();
     
     typedef enum logic [1:0] {DMA_START, WAIT_COMPLETION} tb_state_t;
     tb_state_t state;
@@ -24,6 +30,8 @@ module tb;
     );
     apb_target_tb #(.DEVID(0))  apb_target0  (
          .*,
+         .nrst(intf.nrst),
+         .clk (intf.clk),
          .psel(psel0),  
          .pready(pready0), 
          .penable(penable0),
@@ -35,6 +43,8 @@ module tb;
     );
     apb_target_tb  #(.DEVID(1)) apb_target1  (
          .*,
+         .nrst(intf.nrst),
+         .clk (intf.clk),
          .psel(psel1),  
          .pready(pready1), 
          .penable(penable1),
@@ -50,31 +60,31 @@ module tb;
     always 
     begin
         #5
-        clk <= ~clk;
+        intf.clk <= ~intf.clk;
         $display("clock is running");
     end
 
     initial
     begin
         $dumpfile("wave.vcd");
-        $dumpvars(0, apb_master);
-        nrst = 0;
-        clk = 0;
+        $dumpvars(0, tb);
+        intf.nrst = 0;
+        intf.clk = 0;
         state = DMA_START;
-        #15 nrst = 1;
+        #15 intf.nrst = 1;
     end
 
 `ifdef VERILOG_TB
-    always @(posedge clk)
+    always @(posedge intf.clk)
     begin
         //source = 0, destination = 128, length=8
         case (state)
             DMA_START:
             begin
-                source <=0;
-                destination <= 128;
-                length <=8;
-                valid <= 1;
+                intf.source <=0;
+                intf.destination <= 128;
+                intf.length <=8;
+                intf.valid <= 1;
                 // since this is the TB, writing the code free-style 
                 // state change is not in its own always_comb 
                 state <= WAIT_COMPLETION;
@@ -104,7 +114,6 @@ module tb;
 `endif 
 `ifndef VERILOG_TB
 // UVM TB
-    master_intf intf(.clk(clk));
     virtual master_intf vintf = intf;
     initial 
     begin
@@ -115,7 +124,7 @@ module tb;
         run_test();
     end
 
-    always @(posedge ready)
+    always @(posedge intf.ready)
     begin
                     $display ("DMA operation complete. Terminating the simulation");
                     $display (" Memory Dump ");

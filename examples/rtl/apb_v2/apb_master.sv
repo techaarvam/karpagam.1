@@ -1,3 +1,11 @@
+// --------------------------------------------------
+// Copyright
+// --------------------------------------------------
+//
+// Tech Aarvam
+// Copyright (c) 2026 Tech Aarvam.
+// Author: Ram (Ramasubramanian B)
+
 /* Make it parametrized later on */
 
 
@@ -241,5 +249,4 @@ module apb_master_fsm (
     end
     
 endmodule
-
 
